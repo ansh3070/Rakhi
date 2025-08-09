@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Raksha Bandhan!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+      :root {
+          --color-primary-gold: #FFD700; /* Gold */
+          --color-secondary-red: #DC143C; /* Crimson Red */
+          --color-accent-orange: #FFA500; /* Orange */
+          --color-accent-yellow: #FFFF00; /* Yellow */
+          --color-dark-red: #8B0000; /* Dark Red */
+          --color-light-gold: #FFEC8B; /* Light Gold */
+          --color-text-dark: #333;
+          --color-text-light: #FFF;
+          --color-background-light: #FFF8DC; /* Light cream */
+          --color-background-dark: #FDF5E6; /* Old Lace */
+      }
+
+      body {
+          font-family: 'Open Sans', sans-serif;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          background: radial-gradient(circle at top left, var(--color-background-light) 0%, var(--color-background-dark) 100%);
+          color: var(--color-text-dark);
+          overflow: hidden; /* Prevent scroll during transitions */
+          text-align: center;
+      }
+
+      .container {
+          width: 100%;
+          max-width: 900px;
+          padding: 20px;
+          box-sizing: border-box;
+          position: relative;
+          overflow: hidden;
+          min-height: 80vh; /* Ensure container has height for sections */
+      }
+
+      section {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+          opacity: 0;
+          transform: translateY(20px) scale(0.98);
+          pointer-events: none;
+          padding: 20px; /* Add padding to sections */
+          box-sizing: border-box;
+      }
+
+      section.active {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          pointer-events: auto;
+          position: relative; /* Ensure active section takes up space */
+      }
+
+      /* Landing Page */
+      #landing-page {
+          background: linear-gradient(135deg, var(--color-light-gold) 0%, var(--color-primary-gold) 100%);
+          border-radius: 20px;
+          box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+          padding: 50px 30px;
+          min-height: 60vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+      }
+
+      #landing-page h1 {
+          font-family: 'Dancing Script', cursive;
+          font-size: clamp(2.8em, 8vw, 5.5em);
+          color: var(--color-dark-red);
+          margin-bottom: 40px;
+          text-shadow: 4px 4px 6px rgba(0,0,0,0.2);
+          font-weight: 700;
+          line-height: 1.2;
+          letter-spacing: 1px;
+      }
+
+      .rakhi-graphic {
+          width: clamp(180px, 45vw, 350px);
+          height: auto;
+          margin-bottom: 50px;
+          animation: rotateRakhi 10s linear infinite, pulseRakhi 2s ease-in-out infinite alternate;
+          filter: drop-shadow(0 8px 15px rgba(0,0,0,0.4));
+      }
+
+      @keyframes rotateRakhi {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+      }
+
+      @keyframes pulseRakhi {
+          from { transform: scale(1); }
+          to { transform: scale(1.05); }
+      }
+
+      .button {
+          padding: 18px 35px;
+          font-size: 1.3em;
+          font-weight: bold;
+          color: var(--color-text-light);
+          background: linear-gradient(45deg, var(--color-secondary-red), var(--color-dark-red));
+          border: none;
+          border-radius: 50px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+      }
+
+      .button:hover {
+          background: linear-gradient(45deg, var(--color-dark-red), var(--color-secondary-red));
+          transform: translateY(-5px) scale(1.02);
+          box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+      }
+
+      .button:active {
+          transform: translateY(0);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      }
+
+      /* Spin Wheel Page */
+      #spin-wheel-page {
+          background-color: var(--color-background-light);
+          border-radius: 20px;
+          box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+          padding: 40px 20px;
+          min-height: 60vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+      }
+
+      #wheelCanvas {
+          border: 8px solid var(--color-primary-gold);
+          border-radius: 50%;
+          box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+          margin-bottom: 40px;
+          max-width: 90vw; /* Ensure it fits on smaller screens */
+          max-height: 90vw;
+          background-color: #fff; /* Inner background for wheel */
+      }
+
+      #resultMessage {
+          font-family: 'Dancing Script', cursive;
+          font-size: clamp(1.8em, 6vw, 3em);
+          color: var(--color-dark-red);
+          margin-top: 30px;
+          font-weight: bold;
+          opacity: 0;
+          transform: translateY(20px) scale(0.9);
+          transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+          line-height: 1.3;
+      }
+
+      #resultMessage.show {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+          #landing-page h1 {
+              font-size: clamp(2.2em, 10vw, 4.5em);
+          }
+          .rakhi-graphic {
+              width: clamp(150px, 50vw, 300px);
+          }
+          .button {
+              padding: 15px 30px;
+              font-size: 1.1em;
+          }
+          #resultMessage {
+              font-size: clamp(1.5em, 7vw, 2.5em);
+          }
+      }
+
+      @media (max-width: 480px) {
+          #landing-page h1 {
+              font-size: clamp(1.8em, 12vw, 3.8em);
+          }
+          .rakhi-graphic {
+              width: clamp(120px, 60vw, 250px);
+          }
+          .button {
+              padding: 12px 25px;
+              font-size: 1em;
+          }
+      }
+  </style>
+</head>
+<body>
+  <div class="container">
+      <section id="landing-page" class="active">
+          <h1>Happy Raksha Bandhan,✨️❤️</h1>
+          <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/images%20%282%29-L5YisEUTdg0VIKPIlTlPUMfZOWm1xy.png" alt="Decorative Rakhi" class="rakhi-graphic">
+          <button id="spinWheelButton" class="button">Spin wheel to get gift</button>
+        <p>Ig-ansh__3070</p>
+      </section>
+
+      <section id="spin-wheel-page">
+          <canvas id="wheelCanvas" width="400" height="400"></canvas>
+          <button id="spinButton" class="button">Spin</button>
+          <p id="resultMessage"></p>
+      </section>
+  </div>
+
+  <!-- Audio element for the ding sound -->
+  <audio id="dingSound" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          const landingPage = document.getElementById('landing-page');
+          const spinWheelPage = document.getElementById('spin-wheel-page');
+          const spinWheelButton = document.getElementById('spinWheelButton');
+          const spinButton = document.getElementById('spinButton');
+          const resultMessage = document.getElementById('resultMessage');
+          const canvas = document.getElementById('wheelCanvas');
+          const ctx = canvas.getContext('2d');
+          const dingSound = document.getElementById('dingSound');
+
+          let spinCount = 0; // Track how many times the wheel has been spun
+
+          const segments = [
+              { text: '₹1000', color: '#FFD700' }, // Gold
+              { text: 'Pizza', color: '#FFA500' }, // Orange
+              { text: 'Burger', color: '#DC143C' }, // Red
+              { text: 'Chinese Food', color: '#FFFF00' }, // Yellow
+              { text: 'Italian Food', color: '#FF6347' }, // Tomato
+              { text: 'Nothing', color: '#8B0000' }  // Dark Red
+          ];
+          const numSegments = segments.length;
+          const arc = Math.PI / (numSegments / 2);
+          let rotation = 0;
+          let isSpinning = false;
+
+          // Function to draw the wheel
+          function drawWheel() {
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              ctx.save();
+              ctx.translate(canvas.width / 2, canvas.height / 2);
+              ctx.rotate(rotation);
+
+              for (let i = 0; i < numSegments; i++) {
+                  const angle = i * arc;
+                  ctx.beginPath();
+                  ctx.arc(0, 0, canvas.width / 2 - 5, angle, angle + arc);
+                  ctx.lineTo(0, 0);
+                  ctx.closePath();
+                  ctx.fillStyle = segments[i].color;
+                  ctx.fill();
+                  ctx.strokeStyle = 'white';
+                  ctx.lineWidth = 3; /* Thicker lines for segments */
+                  ctx.stroke();
+
+                  ctx.save();
+                  ctx.rotate(angle + arc / 2);
+                  ctx.fillStyle = 'white';
+                  ctx.font = 'bold 20px "Open Sans"'; /* Larger, clearer font */
+                  ctx.textAlign = 'right';
+                  ctx.textBaseline = 'middle';
+                  ctx.fillText(segments[i].text, canvas.width / 2 - 35, 0); /* Adjust text position */
+                  ctx.restore();
+              }
+              ctx.restore();
+
+              // Draw the pointer
+              ctx.beginPath();
+              ctx.fillStyle = '#8B0000'; /* Red pointer */
+              ctx.moveTo(canvas.width / 2 - 15, 0);
+              ctx.lineTo(canvas.width / 2 + 15, 0);
+              ctx.lineTo(canvas.width / 2, 30); /* Larger pointer */
+              ctx.closePath();
+              ctx.fill();
+          }
+
+          // Initial draw
+          drawWheel();
+
+          // Page transition
+          spinWheelButton.addEventListener('click', () => {
+              landingPage.classList.remove('active');
+              // Give time for fade-out before changing display
+              setTimeout(() => {
+                  landingPage.style.display = 'none';
+                  spinWheelPage.style.display = 'flex';
+                  spinWheelPage.classList.add('active');
+                  drawWheel(); // Redraw wheel to ensure it's visible after transition
+              }, 800); // Match CSS transition duration
+          });
+
+          // Spin logic
+          spinButton.addEventListener('click', () => {
+              if (isSpinning) return;
+              isSpinning = true;
+              resultMessage.classList.remove('show');
+              resultMessage.textContent = '';
+              spinButton.disabled = true;
+              spinCount++; // Increment spin count
+
+              // Rigged logic: Always land on "Nothing" (last segment)
+              const targetSegmentIndex = 5; // "Nothing"
+              const targetAngleInSegment = arc / 2; // Middle of the segment
+              const targetAngleOffset = targetSegmentIndex * arc; // Start of the segment
+
+              const fullRotations = Math.floor(Math.random() * 6 + 5); // 5 to 10 full rotations
+              const totalTargetRotation = (fullRotations * 2 * Math.PI) + targetAngleOffset + targetAngleInSegment;
+
+              let currentNormalizedRotation = rotation % (2 * Math.PI);
+              if (currentNormalizedRotation < 0) currentNormalizedRotation += (2 * Math.PI);
+
+              let spinAmount = totalTargetRotation - currentNormalizedRotation;
+              if (spinAmount < 0) {
+                  spinAmount += (2 * Math.PI);
+              }
+
+              const finalRotation = rotation + spinAmount;
+
+              const duration = 6000; // 6 seconds spin for smoother animation
+              const startTime = performance.now();
+
+              function animateSpin(currentTime) {
+                  const elapsedTime = currentTime - startTime;
+                  const progress = Math.min(elapsedTime / duration, 1);
+
+                  const easedProgress = 1 - Math.pow(1 - progress, 5);
+
+                  rotation = finalRotation * easedProgress;
+                  drawWheel();
+
+                  if (progress < 1) {
+                      requestAnimationFrame(animateSpin);
+                  } else {
+                      isSpinning = false;
+                      spinButton.disabled = false;
+
+                      // Play ding sound
+                      dingSound.currentTime = 0; // Rewind to start
+                      dingSound.play().catch(e => console.error("Audio play failed:", e)); // Handle potential autoplay policy issues
+
+                      // Conditional messages
+                      let message = '';
+                      if (spinCount === 1) {
+                          message = 'Oops… you got nothing! Let\'s try again 😂';
+                      } else {
+                          message = 'Teri kismet kharab hai behen, mai toh bhaut kuch gift karna chata tha 😂';
+                      }
+
+                      setTimeout(() => {
+                          resultMessage.textContent = message;
+                          resultMessage.classList.add('show');
+                      }, 300);
+                  }
+              }
+              requestAnimationFrame(animateSpin);
+          });
+
+          // Ensure sections are correctly displayed/hidden on initial load
+          landingPage.style.display = 'flex';
+          spinWheelPage.style.display = 'none';
+          landingPage.classList.add('active');
+      });
+  </script>
+</body>
+</html>
